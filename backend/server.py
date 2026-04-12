@@ -587,119 +587,17 @@ async def submit_contact(data: ContactMessage):
     return {"message": "Message received, we'll get back to you soon"}
 
 # ==================== SEED DATA ====================
-
+from seed_products import get_seed_products
 @api_router.post("/seed")
 async def seed_database():
-    # Check if already seeded
     existing = await db.products.find_one()
     if existing:
         return {"message": "Database already seeded"}
-    
-    products = [
-        # Divan Beds
-        {
-            "id": str(uuid.uuid4()), "name": "Luxury Divan Bed Set", "slug": "luxury-divan-bed-set",
-            "description": "Experience ultimate comfort with our Luxury Divan Bed Set. Crafted with premium materials and featuring a sturdy base with optional storage drawers, this bed combines style with functionality. The plush headboard adds an elegant touch to any bedroom.",
-            "short_description": "Premium divan bed with optional storage and luxury headboard",
-            "category": "divan-beds", "price": 599.00, "sale_price": 449.00,
-            "images": ["https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800", "https://images.unsplash.com/photo-1615874959474-d609969a20ed?w=800"],
-            "sizes": ["Single", "Small Double", "Double", "King", "Super King"],
-            "colors": ["Charcoal Grey", "Silver", "Mink", "Cream"],
-            "storage_options": ["No Drawers", "2 Drawers", "4 Drawers", "Ottoman"],
-            "features": ["Reinforced base construction", "Premium fabric upholstery", "Matching headboard included", "Easy assembly", "10-year frame guarantee"],
-            "delivery_time": "3-5 working days", "in_stock": True, "rating": 4.8, "review_count": 156
-        },
-        {
-            "id": str(uuid.uuid4()), "name": "Memory Foam Divan Bed", "slug": "memory-foam-divan-bed",
-            "description": "Our Memory Foam Divan Bed features a supportive mattress that moulds to your body for pressure relief and comfort. The robust divan base includes practical storage options.",
-            "short_description": "Memory foam mattress with supportive divan base",
-            "category": "divan-beds", "price": 499.00, "sale_price": None,
-            "images": ["https://images.unsplash.com/photo-1617325247661-675ab4b64ae2?w=800"],
-            "sizes": ["Single", "Small Double", "Double", "King", "Super King"],
-            "colors": ["Grey", "Black", "White"],
-            "storage_options": ["No Drawers", "2 Drawers", "4 Drawers"],
-            "features": ["Memory foam comfort layer", "Pocket spring support", "Hypoallergenic materials", "Platform top base"],
-            "delivery_time": "3-5 working days", "in_stock": True, "rating": 4.6, "review_count": 89
-        },
-        # Bed Frames
-        {
-            "id": str(uuid.uuid4()), "name": "Modern Oak Bed Frame", "slug": "modern-oak-bed-frame",
-            "description": "Stunning solid oak bed frame with clean contemporary lines. Features a slatted base for optimal mattress ventilation and a timeless design that complements any decor.",
-            "short_description": "Solid oak frame with contemporary design",
-            "category": "bed-frames", "price": 799.00, "sale_price": 649.00,
-            "images": ["https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800", "https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800"],
-            "sizes": ["Double", "King", "Super King"],
-            "colors": ["Natural Oak", "Walnut", "White Oak"],
-            "storage_options": [],
-            "features": ["Solid oak construction", "Slatted base included", "15-year warranty", "Easy assembly with instructions", "Floor protectors included"],
-            "delivery_time": "5-7 working days", "in_stock": True, "rating": 4.9, "review_count": 234
-        },
-        {
-            "id": str(uuid.uuid4()), "name": "Velvet Upholstered Bed", "slug": "velvet-upholstered-bed",
-            "description": "Make a statement with our luxurious velvet upholstered bed frame. Features a tall padded headboard and contemporary wing design.",
-            "short_description": "Luxurious velvet bed with statement headboard",
-            "category": "bed-frames", "price": 699.00, "sale_price": 549.00,
-            "images": ["https://images.unsplash.com/photo-1618219908412-a29a1bb7b86e?w=800"],
-            "sizes": ["Double", "King", "Super King"],
-            "colors": ["Emerald Green", "Navy Blue", "Blush Pink", "Grey"],
-            "storage_options": [],
-            "features": ["Premium velvet fabric", "Padded headboard", "Sprung slat base", "Stain-resistant treatment"],
-            "delivery_time": "5-7 working days", "in_stock": True, "rating": 4.7, "review_count": 167
-        },
-        # Ottoman Beds
-        {
-            "id": str(uuid.uuid4()), "name": "Gas Lift Ottoman Bed", "slug": "gas-lift-ottoman-bed",
-            "description": "Maximise your bedroom storage with our Gas Lift Ottoman Bed. Easy-lift mechanism reveals massive under-bed storage space. Perfect for smaller bedrooms.",
-            "short_description": "Maximum storage with easy gas-lift mechanism",
-            "category": "ottoman-beds", "price": 649.00, "sale_price": 499.00,
-            "images": ["https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800"],
-            "sizes": ["Small Double", "Double", "King", "Super King"],
-            "colors": ["Grey Fabric", "Cream Fabric", "Black Leather"],
-            "storage_options": ["End Opening", "Side Opening"],
-            "features": ["Heavy-duty gas lifts", "Deep storage compartment", "Sturdy platform base", "Safety mechanism", "No assembly - delivered built"],
-            "delivery_time": "5-7 working days", "in_stock": True, "rating": 4.8, "review_count": 298
-        },
-        {
-            "id": str(uuid.uuid4()), "name": "Luxury Ottoman Storage Bed", "slug": "luxury-ottoman-storage-bed",
-            "description": "Premium ottoman bed with velvet upholstery and generous storage. Features a curved headboard design for added elegance.",
-            "short_description": "Premium velvet ottoman with curved headboard",
-            "category": "ottoman-beds", "price": 849.00, "sale_price": None,
-            "images": ["https://images.unsplash.com/photo-1615874694520-474822394e73?w=800"],
-            "sizes": ["Double", "King", "Super King"],
-            "colors": ["Silver Grey", "Charcoal", "Champagne"],
-            "storage_options": ["End Opening"],
-            "features": ["Velvet upholstery", "Curved headboard", "Premium gas lifts", "Solid base", "White glove delivery"],
-            "delivery_time": "7-10 working days", "in_stock": True, "rating": 4.9, "review_count": 142
-        },
-        # Mattresses
-        {
-            "id": str(uuid.uuid4()), "name": "Premium Pocket Spring Mattress", "slug": "premium-pocket-spring-mattress",
-            "description": "Our bestselling pocket spring mattress with 2000 individual springs for superior support. Features memory foam comfort layers and natural fillings for breathability.",
-            "short_description": "2000 pocket springs with memory foam comfort",
-            "category": "mattresses", "price": 549.00, "sale_price": 399.00,
-            "images": ["https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800"],
-            "sizes": ["Single", "Small Double", "Double", "King", "Super King"],
-            "colors": [],
-            "storage_options": [],
-            "features": ["2000 pocket springs", "Memory foam layer", "Natural cotton cover", "Medium-firm feel", "Hypoallergenic", "10-year warranty"],
-            "delivery_time": "3-5 working days", "in_stock": True, "rating": 4.7, "review_count": 567
-        },
-        {
-            "id": str(uuid.uuid4()), "name": "Hybrid Orthopaedic Mattress", "slug": "hybrid-orthopaedic-mattress",
-            "description": "Designed for those who need extra support. Combines pocket springs with high-density foam layers for optimal spinal alignment. Ideal for back pain sufferers.",
-            "short_description": "Orthopaedic support with hybrid technology",
-            "category": "mattresses", "price": 699.00, "sale_price": 549.00,
-            "images": ["https://images.unsplash.com/photo-1576436866938-8f1c51b5bca5?w=800"],
-            "sizes": ["Single", "Small Double", "Double", "King", "Super King"],
-            "colors": [],
-            "storage_options": [],
-            "features": ["3000 pocket springs", "Orthopaedic support", "Edge-to-edge support", "Temperature regulation", "Removable cover", "15-year warranty"],
-            "delivery_time": "3-5 working days", "in_stock": True, "rating": 4.9, "review_count": 389
-        }
-    ]
-    
+
+    products = get_seed_products()   # 👈 THIS LINE is key
+
     await db.products.insert_many(products)
-    
+
     # Add some sample reviews
     reviews = [
         {"id": str(uuid.uuid4()), "product_id": products[0]["id"], "user_id": "sample", "user_name": "Sarah M.", "rating": 5, "title": "Absolutely love it!", "content": "Best bed we've ever had. Great quality and the delivery was super quick.", "created_at": datetime.now(timezone.utc).isoformat(), "verified_purchase": True},
@@ -707,7 +605,7 @@ async def seed_database():
         {"id": str(uuid.uuid4()), "product_id": products[6]["id"], "user_id": "sample", "user_name": "Emma R.", "rating": 5, "title": "Life changing mattress", "content": "My back pain has completely gone since sleeping on this mattress. Worth every penny!", "created_at": datetime.now(timezone.utc).isoformat(), "verified_purchase": True},
     ]
     await db.reviews.insert_many(reviews)
-    
+
     return {"message": "Database seeded successfully", "products_count": len(products)}
 
 @api_router.get("/")

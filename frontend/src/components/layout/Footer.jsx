@@ -15,7 +15,7 @@ export default function Footer() {
   const handleNewsletterSubmit = async (e) => {
     e.preventDefault();
     if (!email) return;
-    
+
     setLoading(true);
     try {
       await axios.post(`${API}/newsletter`, { email });
@@ -29,7 +29,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#1C1917] text-[#FAFAF9]" data-testid="footer">
+    <footer className="bg-[#1a1a2e] text-[#FAFAF9]" data-testid="footer">
       {/* Newsletter Section */}
       <div className="border-b border-white/10">
         <div className="container mx-auto px-4 py-12 md:py-16">
@@ -46,8 +46,8 @@ export default function Footer() {
                 required
                 data-testid="newsletter-email"
               />
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 className="bg-[#BC4C2E] hover:bg-[#9A3412] text-white btn-press"
                 disabled={loading}
                 data-testid="newsletter-submit"
