@@ -1,12 +1,16 @@
 import { Link } from 'react-router-dom';
-import { Star, ShoppingBag } from 'lucide-react';
+import { Star, ShoppingBag, Heart } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
+import { useWishlist } from '../../context/WishlistContext';
 
 export default function ProductCard({ product }) {
+  const { toggleWishlist, isWishlisted } = useWishlist();
+  const wishlisted = isWishlisted(product.id);
+
   const hasDiscount = product.sale_price && product.sale_price < product.price;
-  const discountPercent = hasDiscount 
-    ? Math.round((1 - product.sale_price / product.price) * 100) 
+  const discountPercent = hasDiscount
+    ? Math.round((1 - product.sale_price / product.price) * 100)
     : 0;
 
   return (
@@ -14,12 +18,12 @@ export default function ProductCard({ product }) {
       <Link to={`/product/${product.slug}`} className="block">
         {/* Image */}
         <div className="relative aspect-[4/5] overflow-hidden bg-[#F5F5F4]">
-          <img 
-            src={product.images?.[0] || 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=400'} 
+          <img
+            src={product.images?.[0] || 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=400'}
             alt={product.name}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
-          
+
           {/* Badges */}
           <div className="absolute top-3 left-3 flex flex-col gap-2">
             {hasDiscount && (
@@ -34,14 +38,28 @@ export default function ProductCard({ product }) {
             )}
           </div>
 
-          {/* Quick Add - Desktop */}
+          {/* Wishlist Heart Button */}
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleWishlist(product);
+            }}
+            className={`absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center shadow-md transition-all duration-200 z-10
+              ${wishlisted
+                ? 'bg-red-500 text-white scale-110'
+                : 'bg-white/90 text-gray-400 hover:text-red-500 hover:bg-white hover:scale-110'
+              }`}
+            aria-label={wishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
+          >
+            <Heart className={`w-4 h-4 transition-all ${wishlisted ? 'fill-white' : ''}`} />
+          </button>
+
+          {/* Quick View - Desktop */}
           <div className="absolute bottom-4 left-4 right-4 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 hidden md:block">
-            <Button 
+            <Button
               className="w-full bg-[#1C1917] hover:bg-[#292524] text-white btn-press"
-              onClick={(e) => {
-                e.preventDefault();
-                // Navigate to product page for selection
-              }}
+              onClick={(e) => e.preventDefault()}
             >
               <ShoppingBag className="w-4 h-4 mr-2" /> Quick View
             </Button>
@@ -87,13 +105,20 @@ export default function ProductCard({ product }) {
         </div>
       </Link>
 
-      {/* Mobile Add Button */}
-      <div className="px-4 pb-4 md:hidden">
-        <Link to={`/product/${product.slug}`}>
-          <Button variant="outline" className="w-full btn-press">
+      {/* Mobile Buttons */}
+      <div className="px-4 pb-4 md:hidden flex gap-2">
+        <Link to={`/product/${product.slug}`} className="flex-1">
+          <Button variant="outline" className="w-full btn-press text-sm">
             View Product
           </Button>
         </Link>
+        <button
+          onClick={() => toggleWishlist(product)}
+          className={`w-10 h-9 rounded-md border flex items-center justify-center transition-all
+            ${wishlisted ? 'bg-red-50 border-red-200 text-red-500' : 'border-gray-200 text-gray-400 hover:text-red-500'}`}
+        >
+          <Heart className={`w-4 h-4 ${wishlisted ? 'fill-red-500' : ''}`} />
+        </button>
       </div>
     </div>
   );

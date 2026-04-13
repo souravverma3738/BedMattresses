@@ -34,7 +34,7 @@ export default function Footer() {
       <div className="border-b border-white/10">
         <div className="container mx-auto px-4 py-12 md:py-16">
           <div className="max-w-2xl mx-auto text-center">
-            <h3 className="font-['Playfair_Display'] text-3xl md:text-4xl mb-4">Join the Pascal Family</h3>
+            <h3 className="font-['Playfair_Display'] text-3xl md:text-4xl mb-4">Join the Snug Scotland Family</h3>
             <p className="text-[#a8a29e] mb-6">Subscribe for exclusive offers, sleep tips, and early access to new arrivals.</p>
             <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" data-testid="newsletter-form">
               <Input
@@ -64,8 +64,8 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1 lg:col-span-1">
-            <Link to="/" className="font-['Playfair_Display'] text-2xl font-semibold">
-              Pascal<span className="text-[#BC4C2E]">Beds</span>
+            <Link to="/" className="font-bold text-2xl">
+              Snug<span className="text-[#BC4C2E]">Scotland</span>
             </Link>
             <p className="text-[#a8a29e] text-sm mt-4 mb-6">Premium beds & mattresses delivered across the UK. Sleep better, live better.</p>
             <div className="flex gap-4">
@@ -82,7 +82,7 @@ export default function Footer() {
               <li><Link to="/category/divan-beds" className="hover:text-white transition-colors" data-testid="footer-divan">Divan Beds</Link></li>
               <li><Link to="/category/bed-frames" className="hover:text-white transition-colors" data-testid="footer-frames">Bed Frames</Link></li>
               <li><Link to="/category/ottoman-beds" className="hover:text-white transition-colors" data-testid="footer-ottoman">Ottoman Beds</Link></li>
-              <li><Link to="/category/mattresses" className="hover:text-white transition-colors" data-testid="footer-mattresses">Mattresses</Link></li>
+              <li><Link to="/category/mattresses-luxury" className="hover:text-white transition-colors" data-testid="footer-mattresses">Mattresses</Link></li>
             </ul>
           </div>
 
@@ -116,11 +116,11 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="w-4 h-4" />
-                <span>hello@pascalbeds.co.uk</span>
+                <span>hello@snugscotland.co.uk</span>
               </li>
               <li className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 mt-0.5" />
-                <span>123 Sleep Street, Manchester, M1 2AB</span>
+                <span>123 Sleep Street, Edinburgh, EH1 1AB</span>
               </li>
             </ul>
           </div>
@@ -128,7 +128,7 @@ export default function Footer() {
 
         {/* Bottom */}
         <div className="border-t border-white/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-[#a8a29e]">
-          <p>© 2024 Pascal Beds. All rights reserved.</p>
+          <p>© 2024 Snug Scotland. All rights reserved.</p>
           <div className="flex items-center gap-4">
             <img src="https://cdn-icons-png.flaticon.com/32/349/349221.png" alt="Visa" className="h-6 opacity-60" />
             <img src="https://cdn-icons-png.flaticon.com/32/349/349228.png" alt="Mastercard" className="h-6 opacity-60" />

@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "./components/ui/sonner";
 import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
+import { WishlistProvider } from "./context/WishlistContext";
 
 // Layout
 import Layout from "./components/layout/Layout";
@@ -22,32 +23,36 @@ import DeliveryPage from "./pages/DeliveryPage";
 import ReturnsPage from "./pages/ReturnsPage";
 import TermsPage from "./pages/TermsPage";
 import PrivacyPage from "./pages/PrivacyPage";
+import WishlistPage from "./pages/WishlistPage";
 
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
         <CartProvider>
-          <Toaster position="top-right" richColors />
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<Home />} />
-              <Route path="category/:category" element={<CategoryPage />} />
-              <Route path="product/:slug" element={<ProductPage />} />
-              <Route path="cart" element={<CartPage />} />
-              <Route path="checkout" element={<CheckoutPage />} />
-              <Route path="order-confirmation" element={<OrderConfirmation />} />
-              <Route path="login" element={<LoginPage />} />
-              <Route path="register" element={<RegisterPage />} />
-              <Route path="account" element={<AccountPage />} />
-              <Route path="about" element={<AboutPage />} />
-              <Route path="contact" element={<ContactPage />} />
-              <Route path="delivery" element={<DeliveryPage />} />
-              <Route path="returns" element={<ReturnsPage />} />
-              <Route path="terms" element={<TermsPage />} />
-              <Route path="privacy" element={<PrivacyPage />} />
-            </Route>
-          </Routes>
+          <WishlistProvider>
+            <Toaster position="top-right" richColors />
+            <Routes>
+              <Route path="/" element={<Layout />}>
+                <Route index element={<Home />} />
+                <Route path="category/:category" element={<CategoryPage />} />
+                <Route path="product/:slug" element={<ProductPage />} />
+                <Route path="cart" element={<CartPage />} />
+                <Route path="checkout" element={<CheckoutPage />} />
+                <Route path="order-confirmation" element={<OrderConfirmation />} />
+                <Route path="login" element={<LoginPage />} />
+                <Route path="register" element={<RegisterPage />} />
+                <Route path="account" element={<AccountPage />} />
+                <Route path="wishlist" element={<WishlistPage />} />
+                <Route path="about" element={<AboutPage />} />
+                <Route path="contact" element={<ContactPage />} />
+                <Route path="delivery" element={<DeliveryPage />} />
+                <Route path="returns" element={<ReturnsPage />} />
+                <Route path="terms" element={<TermsPage />} />
+                <Route path="privacy" element={<PrivacyPage />} />
+              </Route>
+            </Routes>
+          </WishlistProvider>
         </CartProvider>
       </AuthProvider>
     </BrowserRouter>
