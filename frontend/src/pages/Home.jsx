@@ -57,20 +57,31 @@ export default function Home() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        await axios.post(`${API}/seed`);
-        const res = await axios.get(`${API}/products/featured`);
-        setProducts(res.data);
-      } catch (err) {
-        console.error('Error fetching products:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProducts();
-  }, []);
+ useEffect(() => {
+  const fetchProducts = async () => {
+    try {
+      await axios.post(`${API}/seed`);
+      const res = await axios.get(`${API}/products/featured`);
+
+      console.log("featured response:", res.data);
+
+      const productList = Array.isArray(res.data)
+        ? res.data
+        : Array.isArray(res.data?.products)
+        ? res.data.products
+        : [];
+
+      setProducts(productList);
+    } catch (err) {
+      console.error('Error fetching products:', err);
+      setProducts([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchProducts();
+}, []);
 
   return (
     <div data-testid="home-page" className="overflow-x-hidden">
@@ -205,9 +216,9 @@ export default function Home() {
             </div>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-              {products.slice(0, 8).map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
+              {(Array.isArray(products) ? products : []).slice(0, 8).map((product) => (
+  <ProductCard key={product.id || product._id} product={product} />
+))}
             </div>
           )}
         </div>
