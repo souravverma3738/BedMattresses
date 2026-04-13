@@ -607,7 +607,9 @@ async def seed_database():
     await db.reviews.insert_many(reviews)
 
     return {"message": "Database seeded successfully", "products_count": len(products)}
+
 from pathlib import Path
+from fastapi import HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 
@@ -623,11 +625,14 @@ if FRONTEND_BUILD_DIR.exists():
 
     @app.get("/{full_path:path}")
     async def serve_react_app(full_path: str):
+        if full_path.startswith("api"):
+            raise HTTPException(status_code=404, detail="API route not found")
+
         requested_file = FRONTEND_BUILD_DIR / full_path
         if requested_file.exists() and requested_file.is_file():
             return FileResponse(requested_file)
-        return FileResponse(FRONTEND_BUILD_DIR / "index.html")
 
+        return FileResponse(FRONTEND_BUILD_DIR / "index.html")
 @api_router.get("/")
 async def root():
     return {"message": "Pascal Beds API", "status": "running"}

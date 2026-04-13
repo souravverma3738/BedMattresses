@@ -19,7 +19,10 @@ export function CartProvider({ children }) {
     try {
       setLoading(true);
       const res = await axios.get(`${API}/cart`);
-      setCart(res.data);
+     setCart({
+  items: Array.isArray(res.data?.items) ? res.data.items : [],
+  total: typeof res.data?.total === 'number' ? res.data.total : 0,
+});
     } catch (err) {
       console.error('Error fetching cart:', err);
     } finally {
@@ -75,7 +78,10 @@ export function CartProvider({ children }) {
     }
   };
 
-  const cartCount = cart.items.reduce((acc, item) => acc + item.quantity, 0);
+const cartCount = (Array.isArray(cart?.items) ? cart.items : []).reduce(
+  (acc, item) => acc + item.quantity,
+  0
+);
 
   return (
     <CartContext.Provider value={{ cart, loading, addToCart, updateCart, removeItem, clearCart, cartCount, fetchCart }}>
