@@ -607,6 +607,26 @@ async def seed_database():
     await db.reviews.insert_many(reviews)
 
     return {"message": "Database seeded successfully", "products_count": len(products)}
+from pathlib import Path
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+
+BASE_DIR = Path(__file__).resolve().parent
+FRONTEND_BUILD_DIR = BASE_DIR.parent / "frontend" / "build"
+
+if FRONTEND_BUILD_DIR.exists():
+    app.mount("/static", StaticFiles(directory=FRONTEND_BUILD_DIR / "static"), name="static")
+
+    @app.get("/")
+    async def serve_root():
+        return FileResponse(FRONTEND_BUILD_DIR / "index.html")
+
+    @app.get("/{full_path:path}")
+    async def serve_react_app(full_path: str):
+        requested_file = FRONTEND_BUILD_DIR / full_path
+        if requested_file.exists() and requested_file.is_file():
+            return FileResponse(requested_file)
+        return FileResponse(FRONTEND_BUILD_DIR / "index.html")
 
 @api_router.get("/")
 async def root():
