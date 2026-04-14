@@ -5,7 +5,7 @@ import { Button } from '../components/ui/button';
 import ProductCard from '../components/product/ProductCard';
 import axios from 'axios';
 
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+const API = `${process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000'}/api`;
 
 // ── CATEGORIES (matches PDF exactly) ────────────────────────────────────────
 const popularCategories = [

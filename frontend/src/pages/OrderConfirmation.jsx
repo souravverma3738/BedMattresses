@@ -4,7 +4,7 @@ import { CheckCircle, XCircle, Loader2, Package, Mail } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import axios from 'axios';
 
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+const API = `${process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000'}/api`;
 
 export default function OrderConfirmation() {
   const [searchParams] = useSearchParams();
