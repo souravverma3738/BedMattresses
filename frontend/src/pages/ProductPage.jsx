@@ -10,7 +10,7 @@ import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
 import { toast } from 'sonner';
 
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+const API = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
 
 export default function ProductPage() {
   const { slug } = useParams();
