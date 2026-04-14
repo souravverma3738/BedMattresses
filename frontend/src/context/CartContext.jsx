@@ -4,7 +4,7 @@ import { useAuth } from './AuthContext';
 import { toast } from 'sonner';
 
 const CartContext = createContext(null);
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+const API = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
 
 export function CartProvider({ children }) {
   const { isAuthenticated, token } = useAuth();
